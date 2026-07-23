@@ -1,0 +1,59 @@
+---
+import retailers from '../data/retailers.json';
+// Flatten the regional data into one simple, condensed list.
+const all = retailers.regions.flatMap((region) =>
+  region.retailers.map((r) => ({ ...r, region: region.label }))
+);
+---
+<section class="section" id="buy">
+  <div class="shell">
+    <div class="section-intro" data-reveal style="text-align:center;margin-inline:auto">
+      <div class="eyebrow" style="justify-content:center">Available worldwide</div>
+      <h2>Where to <em>buy the book.</em></h2>
+      <p class="lede" style="margin:1.1rem auto 0;max-width:48ch">
+        Direct links appear here as each retailer lists the title. Until then,
+        ask for it by name at your favourite bookshop.
+      </p>
+    </div>
+
+    <div class="buy-grid" data-reveal data-reveal-delay="1">
+      {all.map((r) =>
+        r.available && r.url ? (
+          <a class="buy-chip" href={r.url} target="_blank" rel="noopener" aria-label={`Buy from ${r.name}`}>
+            <span class="buy-chip__name">{r.name}</span>
+            <span class="buy-chip__region">{r.region}</span>
+          </a>
+        ) : (
+          <span class="buy-chip" aria-disabled="true" title="Link coming soon">
+            <span class="buy-chip__name">{r.name}</span>
+            <span class="buy-chip__region">{r.region}</span>
+          </span>
+        )
+      )}
+    </div>
+  </div>
+</section>
+
+<style>
+  .buy-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 0.7rem;
+    margin-top: 2.6rem;
+  }
+  .buy-chip {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.6rem;
+    padding: 0.95rem 1.15rem;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    transition: transform 0.4s var(--ease), border-color 0.4s var(--ease), box-shadow 0.4s var(--ease);
+  }
+  .buy-chip[aria-disabled='true'] { opacity: 0.62; pointer-events: none; }
+  .buy-chip:hover { transform: translateY(-2px); border-color: var(--gold); box-shadow: var(--shadow-soft); }
+  .buy-chip__name { font-family: var(--sans); font-weight: 600; font-size: 0.92rem; color: var(--ink); }
+  .buy-chip__region { font-family: var(--sans); font-size: 0.64rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); white-space: nowrap; }
+</style>

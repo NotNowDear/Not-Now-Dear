@@ -1,0 +1,60 @@
+---
+import { SITE } from '../consts';
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;         // absolute or root-relative path
+  type?: 'website' | 'article';
+  noindex?: boolean;
+  canonical?: string;
+  /** JSON-LD structured data blocks (already-built objects). */
+  jsonLd?: Record<string, unknown>[];
+}
+
+const {
+  title,
+  description = SITE.description,
+  image = '/images/final-artwork-austin-macauley.jpg',
+  type = 'website',
+  noindex = false,
+  canonical,
+  jsonLd = [],
+} = Astro.props;
+
+const pageTitle = title ? `${title} — ${SITE.title}` : `${SITE.title} — ${SITE.author}`;
+const canonicalURL = canonical ?? new URL(Astro.url.pathname, SITE.url).href;
+const imageURL = new URL(image, SITE.url).href;
+---
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>{pageTitle}</title>
+<meta name="description" content={description} />
+<meta name="author" content={SITE.author} />
+<link rel="canonical" href={canonicalURL} />
+{noindex && <meta name="robots" content="noindex, nofollow" />}
+<meta name="theme-color" content="#6a0f1e" />
+<meta name="generator" content={Astro.generator} />
+
+<!-- Icons -->
+<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+<link rel="alternate" type="application/rss+xml" title={SITE.title} href={new URL('/rss.xml', SITE.url).href} />
+
+<!-- Open Graph -->
+<meta property="og:type" content={type} />
+<meta property="og:site_name" content={SITE.title} />
+<meta property="og:locale" content={SITE.locale} />
+<meta property="og:url" content={canonicalURL} />
+<meta property="og:title" content={pageTitle} />
+<meta property="og:description" content={description} />
+<meta property="og:image" content={imageURL} />
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={pageTitle} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={imageURL} />
+
+{jsonLd.map((block) => (
+  <script type="application/ld+json" set:html={JSON.stringify(block)} />
+))}

@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+# Optimised for Google, Bing, DuckDuckGo, Yahoo and friends.
+Sitemap: https://www.notnowdear.com/sitemap-index.xml

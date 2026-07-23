@@ -1,0 +1,19 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+<BaseLayout title="Page not found" noindex={true} showTopbar={true}>
+  <section class="section" style="text-align:center">
+    <div class="shell">
+      <div class="eyebrow" style="justify-content:center">Not now, dear…</div>
+      <h1 style="margin-top:0.5rem">This page is<br /><em>gathering its thoughts.</em></h1>
+      <p class="lede" style="margin:1.4rem auto 0;max-width:46ch">
+        We couldn't find the page you were looking for — but the story is still
+        right this way.
+      </p>
+      <div class="button-row" style="justify-content:center;margin-top:2rem">
+        <a class="button button--ruby" href="/">Back to home</a>
+        <a class="button button--ghost" href="/blog/">Read the journal</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

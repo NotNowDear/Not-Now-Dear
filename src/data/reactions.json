@@ -1,0 +1,20 @@
+{
+  "note": "Reader reactions. Add, edit or reorder freely. 'stars' is 1-5. These are sample placeholders — replace with real reviews as they arrive.",
+  "reactions": [
+    {
+      "stars": 5,
+      "quote": "Sharp, tender and quietly devastating. I finished it in a single sitting and immediately wanted to start again.",
+      "attribution": "Early reader"
+    },
+    {
+      "stars": 5,
+      "quote": "Wickedly funny about the things we never say out loud. It made me laugh, then made me think about my own 'not now, dear' moments.",
+      "attribution": "Advance review"
+    },
+    {
+      "stars": 5,
+      "quote": "Elegant, mischievous, and full of heart. The kind of book you press into a friend's hands.",
+      "attribution": "Bookshop bookseller"
+    }
+  ]
+}

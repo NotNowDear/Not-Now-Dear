@@ -1,0 +1,182 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Newsletter from '../components/Newsletter.astro';
+import BlogCard from '../components/BlogCard.astro';
+import Picture from '../components/Picture.astro';
+import { SITE, SOCIAL, BUY } from '../consts';
+import { readingTime } from '../utils';
+import reactionsData from '../data/reactions.json';
+
+const posts = (await getCollection('blog'))
+  .filter((p) => !p.data.draft)
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0, 3);
+
+const reactions = reactionsData.reactions;
+
+// ---- Structured data (JSON-LD) --------------------------------------------
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: SITE.title,
+    alternateName: SITE.fullTitle,
+    url: SITE.url,
+    inLanguage: 'en',
+    author: { '@type': 'Person', name: SITE.author },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Book',
+    name: SITE.fullTitle,
+    author: { '@type': 'Person', name: SITE.author },
+    publisher: { '@type': 'Organization', name: SITE.publisher },
+    inLanguage: 'en',
+    bookFormat: 'https://schema.org/Paperback',
+    url: SITE.url,
+    image: `${SITE.url}/images/final-artwork-austin-macauley.jpg`,
+    description: SITE.description,
+    ...(SITE.isbn ? { isbn: SITE.isbn } : {}),
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Person',
+    name: SITE.author,
+    jobTitle: ['Engineer', 'Author', 'Speaker', 'Creator'],
+    url: SITE.url,
+    sameAs: [SOCIAL.instagram],
+  },
+];
+---
+<BaseLayout jsonLd={jsonLd} footer={true}>
+  <!-- ===================== HERO ===================== -->
+  <section class="hero">
+    <div class="hero__media">
+      <Picture
+        src="/images/glamor-heel.png"
+        alt="A ruby, crystal-encrusted stiletto with fishnet stocking resting on planet Earth, amid velvet drapes and candlelight"
+        width={1536}
+        height={1024}
+        loading="eager"
+        fetchpriority="high"
+      />
+    </div>
+    <div class="hero__scrim" aria-hidden="true"></div>
+    <div class="hero__glow" aria-hidden="true"></div>
+    <div class="shell">
+      <div class="hero-copy" data-reveal>
+        <div class="eyebrow">A novel by {SITE.author}</div>
+        <h1>
+          Not now, <em>dear.</em>
+          <span class="tagline">I'm gathering my thoughts.</span>
+        </h1>
+        <p class="hook" style="margin-top:1.4rem">Every great idea begins with one thought…</p>
+        <p class="lede" style="margin-top:1rem">
+          A warm, witty and quietly provocative story about the people we love,
+          the boundaries we draw, and the life that begins when we finally make
+          room for ourselves.
+        </p>
+        <div class="button-row">
+          <a class="button button--ruby" href={BUY.amazon} target="_blank" rel="noopener">Buy the book</a>
+          <a class="button button--ghost" href="/blog/">Read the journal</a>
+          <a class="button button--gold" href="#join">Join the readers</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== MARQUEE ===================== -->
+  <div class="marquee" aria-hidden="true">
+    <div class="marquee__track">
+      <span>Tender ✦ truthful ✦ a little bit unruly</span>
+      <span>Tender ✦ truthful ✦ a little bit unruly</span>
+      <span>Tender ✦ truthful ✦ a little bit unruly</span>
+      <span>Tender ✦ truthful ✦ a little bit unruly</span>
+    </div>
+  </div>
+
+  <!-- ===================== THE STORY ===================== -->
+  <section class="section" id="story">
+    <div class="shell split split--reverse">
+      <figure class="book-showcase" data-reveal>
+        <Picture src="/images/final-artwork-austin-macauley.jpg" alt={`Front cover of ${SITE.fullTitle} by ${SITE.author}`} width={640} height={1024} />
+      </figure>
+      <div data-reveal data-reveal-delay="1">
+        <div class="eyebrow">The story</div>
+        <h2>What happens when<br /><em>“later” becomes a life?</em></h2>
+        <p class="lede" style="margin-top:1.2rem">
+          Not Now Dear follows the tender, complicated business of making a life
+          that feels like your own — for anyone who has ever been asked to be
+          smaller, quieter, or more convenient.
+        </p>
+        <p style="margin-top:1rem">
+          Funny, intimate and full of warmth, it is a story about friendship,
+          family, and the quiet bravery of deciding what truly deserves your
+          attention. It invites you to pause — and then to choose yourself.
+        </p>
+        <blockquote class="quote" style="margin-top:1.8rem">
+          There is always time for a good story.
+        </blockquote>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== READER REACTIONS ===================== -->
+  <section class="section panel" id="reactions">
+    <div class="shell">
+      <div class="section-intro" data-reveal>
+        <div class="eyebrow eyebrow--gold">Reader reactions</div>
+        <h2>Kind words<br /><em>from early readers.</em></h2>
+      </div>
+      <div class="reactions-grid">
+        {reactions.map((r, i) => (
+          <figure class="reaction" data-reveal data-reveal-delay={(i % 3) + 1}>
+            <div class="reaction__stars" aria-label={`${r.stars} out of 5 stars`}>
+              {'★'.repeat(r.stars)}{'☆'.repeat(5 - r.stars)}
+            </div>
+            <blockquote>{r.quote}</blockquote>
+            <cite>— {r.attribution}</cite>
+          </figure>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== BLOG FEED ===================== -->
+  {posts.length > 0 && (
+    <section class="section" id="journal">
+      <div class="shell">
+        <div class="section-intro" data-reveal>
+          <div class="eyebrow">From the journal</div>
+          <h2>Notes, news &amp;<br /><em>the occasional confession.</em></h2>
+        </div>
+        <div class="feed-grid">
+          {posts.map((post, i) => (
+            <BlogCard
+              href={`/blog/${post.id}/`}
+              title={post.data.title}
+              summary={post.data.summary}
+              image={post.data.featuredImage}
+              imageAlt={post.data.featuredImageAlt}
+              date={post.data.date}
+              category={post.data.categories[0]}
+              readingTime={readingTime(post.body ?? '')}
+              eager={i === 0}
+            />
+          ))}
+        </div>
+        <div class="button-row" style="justify-content:center;margin-top:3rem">
+          <a class="button button--ghost" href="/blog/">Read the whole journal</a>
+        </div>
+      </div>
+    </section>
+  )}
+
+  <!-- ===================== NEWSLETTER ===================== -->
+  <Newsletter />
+</BaseLayout>
+
+<style>
+  .section-intro { max-width: 46ch; }
+</style>

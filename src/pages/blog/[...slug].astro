@@ -1,0 +1,103 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ShareButtons from '../../components/ShareButtons.astro';
+import Comments from '../../components/Comments.astro';
+import Picture from '../../components/Picture.astro';
+import { SITE } from '../../consts';
+import { readingTime, formatDate } from '../../utils';
+
+export async function getStaticPaths() {
+  const posts = (await getCollection('blog')).filter((p) => !p.data.draft);
+  return posts.map((post) => ({
+    params: { slug: post.id },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { data } = post;
+const { Content } = await render(post);
+
+const minutes = readingTime(post.body ?? '');
+const path = `/blog/${post.id}/`;
+const ogImage = data.ogImage ?? data.featuredImage;
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: data.title,
+    description: data.metaDescription ?? data.summary,
+    image: new URL(data.featuredImage, SITE.url).href,
+    datePublished: data.date.toISOString(),
+    dateModified: (data.updated ?? data.date).toISOString(),
+    author: { '@type': 'Person', name: data.author },
+    publisher: {
+      '@type': 'Organization',
+      name: SITE.title,
+      logo: { '@type': 'ImageObject', url: `${SITE.url}/images/logo.jpg` },
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': new URL(path, SITE.url).href },
+    keywords: data.tags.join(', '),
+  },
+];
+---
+<BaseLayout
+  title={data.seoTitle ?? data.title}
+  description={data.metaDescription ?? data.summary}
+  image={ogImage}
+  type="article"
+  canonical={new URL(path, SITE.url).href}
+  jsonLd={jsonLd}
+  showTopbar={true}
+>
+  <article class="article">
+    <div class="shell">
+      <header class="article__header" data-reveal>
+        {data.categories[0] && <div class="eyebrow">{data.categories[0]}</div>}
+        <h1>{data.title}</h1>
+        <div class="article__meta">
+          <span>By {data.author}</span>
+          <span aria-hidden="true">·</span>
+          <time datetime={data.date.toISOString()}>{formatDate(data.date)}</time>
+          <span aria-hidden="true">·</span>
+          <span>{minutes} min read</span>
+        </div>
+      </header>
+
+      <figure class="article__hero" data-reveal data-reveal-delay="1">
+        <Picture
+          src={data.featuredImage}
+          alt={data.featuredImageAlt || data.title}
+          width={1000}
+          height={600}
+          loading="eager"
+          fetchpriority="high"
+        />
+      </figure>
+
+      <div class="prose" data-reveal>
+        <Content />
+      </div>
+
+      {data.tags.length > 0 && (
+        <div class="prose">
+          <div class="tag-row">
+            {data.tags.map((t) => <span class="tag">#{t}</span>)}
+          </div>
+        </div>
+      )}
+
+      <div class="prose">
+        <ShareButtons title={data.title} path={path} />
+      </div>
+
+      <Comments />
+
+      <div class="prose" style="text-align:center;margin-top:3rem">
+        <a class="button button--ghost" href="/blog/">← Back to the journal</a>
+      </div>
+    </div>
+  </article>
+</BaseLayout>

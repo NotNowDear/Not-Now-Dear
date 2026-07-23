@@ -1,0 +1,43 @@
+---
+// GDPR cookie consent. Analytics only loads AFTER the visitor accepts.
+---
+<div class="cookie" id="cookie-banner" role="dialog" aria-live="polite" aria-label="Cookie preferences">
+  <p>
+    We use privacy-friendly analytics to understand what readers enjoy — no
+    invasive tracking, ever. You can accept or decline. See our
+    <a href="/privacy/">privacy note</a>.
+  </p>
+  <div class="cookie__actions">
+    <button class="button button--gold" data-cookie="accept">Accept</button>
+    <button class="button button--mini-ghost" data-cookie="decline">Decline</button>
+  </div>
+</div>
+
+<script>
+  const KEY = 'nnd-consent';
+  const banner = document.getElementById('cookie-banner');
+
+  function apply(consent: string) {
+    if (consent === 'accept') {
+      // Signal to the analytics loader that consent was granted.
+      window.dispatchEvent(new CustomEvent('nnd:consent-granted'));
+    }
+  }
+
+  const saved = localStorage.getItem(KEY);
+  if (!saved) {
+    // Reveal after a beat so it feels gentle, not aggressive.
+    setTimeout(() => banner?.classList.add('is-visible'), 900);
+  } else {
+    apply(saved);
+  }
+
+  banner?.querySelectorAll<HTMLButtonElement>('[data-cookie]').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const choice = btn.dataset.cookie!;
+      localStorage.setItem(KEY, choice);
+      banner.classList.remove('is-visible');
+      apply(choice);
+    });
+  });
+</script>

@@ -1,0 +1,65 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { SITE } from '../consts';
+const updated = '23 July 2026';
+---
+<BaseLayout
+  title="Privacy Note"
+  description="How Not Now Dear handles your data — plainly and briefly."
+  showTopbar={true}
+>
+  <section class="article">
+    <div class="shell">
+      <header class="article__header" data-reveal>
+        <div class="eyebrow">The small print, made small</div>
+        <h1>Privacy Note</h1>
+        <div class="article__meta"><span>Last updated {updated}</span></div>
+      </header>
+
+      <div class="prose" data-reveal>
+        <p>
+          This note explains, in plain language, what happens to your
+          information when you use this website. The short version: we collect as
+          little as possible, and we never sell it.
+        </p>
+
+        <h2>The mailing list</h2>
+        <p>
+          If you subscribe, we collect your name, email address and (optionally)
+          your country, so we can send you occasional news about the book. Sign-up
+          uses <strong>double opt-in</strong> — you'll receive a confirmation
+          email and are only added once you click the link inside. You can
+          unsubscribe from any email with one click. Our newsletter is managed by
+          Buttondown, acting as our data processor.
+        </p>
+
+        <h2>Comments</h2>
+        <p>
+          Comments and reactions on journal posts are powered by Giscus, which
+          stores them as GitHub Discussions. To comment you sign in with a GitHub
+          account, and your comment is public. Comments are moderated.
+        </p>
+
+        <h2>Analytics &amp; cookies</h2>
+        <p>
+          We use privacy-friendly, cookieless analytics to understand which
+          writing readers enjoy — only after you accept via the cookie banner.
+          Decline and no analytics load at all. We don't use advertising or
+          cross-site tracking cookies.
+        </p>
+
+        <h2>Your rights</h2>
+        <p>
+          Under the GDPR and similar laws you can ask to access, correct or delete
+          any personal data we hold about you. Just email
+          <a href={`mailto:${SITE.email}`}>{SITE.email}</a> and we'll take care of
+          it.
+        </p>
+
+        <div class="button-row">
+          <a class="button button--ghost" href="/">← Back to home</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

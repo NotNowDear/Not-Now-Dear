@@ -1,0 +1,16 @@
+# build output
+dist/
+.astro/
+
+# dependencies
+node_modules/
+
+# generated public assets (rebuilt from /images by scripts/prepare-assets.mjs)
+public/images/
+
+# env & logs
+.env
+.env.production
+*.log
+.DS_Store
+.vercel/

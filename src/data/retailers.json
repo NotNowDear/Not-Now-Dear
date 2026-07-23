@@ -1,0 +1,68 @@
+{
+  "note": "Set available=true and paste the direct book URL once each retailer lists the title. Order and regions can be freely edited.",
+  "regions": [
+    {
+      "label": "Worldwide",
+      "retailers": [
+        { "name": "Amazon", "meta": "Print & Kindle", "url": "", "available": false }
+      ]
+    },
+    {
+      "label": "United States",
+      "retailers": [
+        { "name": "Barnes & Noble", "meta": "In store & online", "url": "", "available": false }
+      ]
+    },
+    {
+      "label": "United Kingdom",
+      "retailers": [
+        { "name": "Waterstones", "meta": "In store & online", "url": "", "available": false }
+      ]
+    },
+    {
+      "label": "Ireland",
+      "retailers": [
+        { "name": "Eason", "meta": "In store & online", "url": "", "available": false }
+      ]
+    },
+    {
+      "label": "France",
+      "retailers": [
+        { "name": "FNAC", "meta": "Livre & numérique", "url": "", "available": false }
+      ]
+    },
+    {
+      "label": "Germany",
+      "retailers": [
+        { "name": "Thalia", "meta": "Buch & eBook", "url": "", "available": false }
+      ]
+    },
+    {
+      "label": "Australia",
+      "retailers": [
+        { "name": "Dymocks", "meta": "In store & online", "url": "", "available": false },
+        { "name": "Booktopia", "meta": "Online", "url": "", "available": false }
+      ]
+    },
+    {
+      "label": "Canada",
+      "retailers": [
+        { "name": "Indigo", "meta": "In store & online", "url": "", "available": false }
+      ]
+    },
+    {
+      "label": "Japan",
+      "retailers": [
+        { "name": "Rakuten Kobo", "meta": "eBook", "url": "", "available": false }
+      ]
+    },
+    {
+      "label": "Digital",
+      "retailers": [
+        { "name": "Apple Books", "meta": "eBook", "url": "", "available": false },
+        { "name": "Google Play Books", "meta": "eBook", "url": "", "available": false },
+        { "name": "Kobo", "meta": "eBook", "url": "", "available": false }
+      ]
+    }
+  ]
+}

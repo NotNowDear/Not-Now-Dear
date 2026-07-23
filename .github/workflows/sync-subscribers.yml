@@ -1,0 +1,40 @@
+name: Sync subscribers to CSV
+
+# Keeps subscribers.csv in the repo up to date from Buttondown, so it also
+# lands on your desktop whenever you `git pull`. Requires a repository secret
+# named BUTTONDOWN_API_KEY (Settings → Secrets and variables → Actions).
+
+on:
+  schedule:
+    - cron: '0 6 * * *' # every day at 06:00 UTC
+  workflow_dispatch: {} # allow manual runs from the Actions tab
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Fetch subscribers
+        env:
+          BUTTONDOWN_API_KEY: ${{ secrets.BUTTONDOWN_API_KEY }}
+        run: node scripts/sync-subscribers.mjs
+
+      - name: Commit changes if any
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          if ! git diff --quiet -- subscribers.csv; then
+            git add subscribers.csv
+            git commit -m "chore: update subscribers.csv [skip ci]"
+            git push
+          else
+            echo "No subscriber changes."
+          fi

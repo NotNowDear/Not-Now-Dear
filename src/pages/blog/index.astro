@@ -1,0 +1,55 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import BlogCard from '../../components/BlogCard.astro';
+import Newsletter from '../../components/Newsletter.astro';
+import { readingTime } from '../../utils';
+
+const posts = (await getCollection('blog'))
+  .filter((p) => !p.data.draft)
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+---
+<BaseLayout
+  title="The Journal"
+  description="Notes, news and the occasional confession from Not Now Dear by Tristan Coates."
+  showTopbar={true}
+>
+  <section class="section section--tight">
+    <div class="shell">
+      <div class="section-intro" data-reveal style="max-width:52ch">
+        <div class="eyebrow">The journal</div>
+        <h1>Come in.<br /><em>Leave a note.</em></h1>
+        <p class="lede" style="margin-top:1.2rem">
+          Notes from the book, thoughts worth gathering, and good things worth
+          passing along.
+        </p>
+      </div>
+
+      {posts.length > 0 ? (
+        <div class="feed-grid">
+          {posts.map((post, i) => (
+            <BlogCard
+              href={`/blog/${post.id}/`}
+              title={post.data.title}
+              summary={post.data.summary}
+              image={post.data.featuredImage}
+              imageAlt={post.data.featuredImageAlt}
+              date={post.data.date}
+              category={post.data.categories[0]}
+              readingTime={readingTime(post.body ?? '')}
+              eager={i < 3}
+            />
+          ))}
+        </div>
+      ) : (
+        <p class="lede">The first journal entry is on its way. Check back soon.</p>
+      )}
+    </div>
+  </section>
+
+  <Newsletter />
+</BaseLayout>
+
+<style>
+  .section-intro { max-width: 52ch; }
+</style>

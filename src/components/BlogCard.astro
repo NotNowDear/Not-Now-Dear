@@ -1,0 +1,33 @@
+---
+import Picture from './Picture.astro';
+interface Props {
+  href: string;
+  title: string;
+  summary: string;
+  image: string;
+  imageAlt?: string;
+  date: Date;
+  category?: string;
+  readingTime?: number;
+  eager?: boolean;
+}
+const { href, title, summary, image, imageAlt = '', date, category, readingTime, eager = false } = Astro.props;
+const dateStr = new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'long', year: 'numeric' }).format(date);
+---
+<article class="post-card" data-reveal>
+  <a class="post-card__media" href={href} aria-hidden="true" tabindex="-1">
+    <Picture src={image} alt={imageAlt} loading={eager ? 'eager' : 'lazy'} width={640} height={400} />
+  </a>
+  <div class="post-card__body">
+    <div class="post-card__meta">
+      {category && <span>{category}</span>}
+      {category && <span aria-hidden="true"> · </span>}
+      <time datetime={date.toISOString()}>{dateStr}</time>
+      {readingTime && <span aria-hidden="true"> · </span>}
+      {readingTime && <span>{readingTime} min read</span>}
+    </div>
+    <h3><a href={href}>{title}</a></h3>
+    <p class="post-card__excerpt">{summary}</p>
+    <a class="post-card__more" href={href}>Continue reading</a>
+  </div>
+</article>

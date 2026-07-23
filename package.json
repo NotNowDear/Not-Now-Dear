@@ -1,0 +1,18 @@
+{
+  "name": "not-now-dear",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "Official website for Not Now Dear... I'm Gathering My Thoughts by Tristan Coates",
+  "scripts": {
+    "dev": "node scripts/prepare-assets.mjs && astro dev",
+    "prepare-assets": "node scripts/prepare-assets.mjs",
+    "build": "node scripts/prepare-assets.mjs && astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "astro": "^5.13.0",
+    "@astrojs/sitemap": "^3.4.0",
+    "@astrojs/rss": "^4.0.11"
+  }
+}

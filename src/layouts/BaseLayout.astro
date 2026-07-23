@@ -1,0 +1,101 @@
+---
+import '../styles/global.css';
+import SEO from '../components/SEO.astro';
+import CookieBanner from '../components/CookieBanner.astro';
+import Analytics from '../components/Analytics.astro';
+import { SITE } from '../consts';
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  type?: 'website' | 'article';
+  noindex?: boolean;
+  canonical?: string;
+  jsonLd?: Record<string, unknown>[];
+  showTopbar?: boolean;
+  footer?: boolean;
+}
+
+const {
+  title,
+  description,
+  image,
+  type,
+  noindex,
+  canonical,
+  jsonLd,
+  showTopbar = false,
+  footer = true,
+} = Astro.props;
+
+const year = new Date().getFullYear();
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <SEO {title} {description} {image} {type} {noindex} {canonical} {jsonLd} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Inter:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    {showTopbar && (
+      <header class="topbar">
+        <div class="shell">
+          <a class="topbar__brand" href="/">Not Now Dear</a>
+          <a class="topbar__back" href="/">← Home</a>
+        </div>
+      </header>
+    )}
+
+    <main id="main">
+      <slot />
+    </main>
+
+    {footer && (
+      <footer class="footer">
+        <div class="shell">
+          <span class="footer__brand">Not Now Dear</span>
+          <p>© {year} {SITE.author} · All rights reserved</p>
+          <div class="publisher">
+            <span class="publisher__label">Published by</span>
+            <span class="publisher__logo">
+              <img src="/images/am-logo.png" alt="Austin Macauley Publishers" width="240" height="126" loading="lazy" />
+            </span>
+          </div>
+        </div>
+      </footer>
+    )}
+
+    <CookieBanner />
+    <Analytics />
+
+    <script>
+      // Scroll reveal — gentle, and disabled for reduced-motion users.
+      const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const items = document.querySelectorAll('[data-reveal]');
+      if (reduce || !('IntersectionObserver' in window)) {
+        items.forEach((el) => el.classList.add('is-in'));
+      } else {
+        const io = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add('is-in');
+                io.unobserve(entry.target);
+              }
+            });
+          },
+          { rootMargin: '0px 0px -8% 0px', threshold: 0.12 }
+        );
+        items.forEach((el) => io.observe(el));
+      }
+    </script>
+  </body>
+</html>

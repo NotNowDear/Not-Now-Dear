@@ -1,0 +1,20 @@
+---
+import { ANALYTICS } from '../consts';
+const domain = ANALYTICS.plausibleDomain;
+---
+{domain && (
+  <script is:inline define:vars={{ domain }}>
+    // Privacy-friendly Plausible analytics — loaded only after cookie consent.
+    function loadPlausible() {
+      if (document.getElementById('nnd-plausible')) return;
+      const s = document.createElement('script');
+      s.id = 'nnd-plausible';
+      s.defer = true;
+      s.setAttribute('data-domain', domain);
+      s.src = 'https://plausible.io/js/script.js';
+      document.head.appendChild(s);
+    }
+    if (localStorage.getItem('nnd-consent') === 'accept') loadPlausible();
+    window.addEventListener('nnd:consent-granted', loadPlausible);
+  </script>
+)}
