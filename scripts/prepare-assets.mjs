@@ -48,7 +48,7 @@ async function loadSharp() {
   }
 }
 
-async function run() {
+export async function prepareAssets() {
   await fs.mkdir(OUT, { recursive: true });
   const sharp = await loadSharp();
 
@@ -91,7 +91,12 @@ async function run() {
   console.log(`[prepare-assets] copied ${copied} images, generated ${webp} WebP -> public/images/`);
 }
 
-run().catch((err) => {
-  console.error(err);
-  process.exit(1);
-});
+// Run directly from the command line (e.g. `node scripts/prepare-assets.mjs`).
+const invokedDirectly =
+  process.argv[1] && import.meta.url === `file://${process.argv[1]}`;
+if (invokedDirectly) {
+  prepareAssets().catch((err) => {
+    console.error(err);
+    process.exit(1);
+  });
+}
