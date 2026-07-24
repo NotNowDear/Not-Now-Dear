@@ -290,8 +290,8 @@ p { max-width: 62ch; }
 .footer p { font-family: var(--sans); font-size: 0.78rem; letter-spacing: 0.04em; color: var(--muted); }
 .publisher { display: flex; flex-direction: column; align-items: center; gap: 0.7rem; }
 .publisher__label { font-family: var(--sans); font-size: 0.64rem; letter-spacing: 0.24em; text-transform: uppercase; color: var(--muted); }
-.publisher__logo { background: #fff; padding: 0.55rem 0.9rem; border-radius: 8px; box-shadow: var(--shadow-soft); }
-.publisher__logo img { width: clamp(180px, 40vw, 240px); height: auto; }
+.publisher__logo { background: #fff; padding: 0.4rem 0.6rem; border-radius: 8px; box-shadow: var(--shadow-soft); }
+.publisher__logo img { width: clamp(260px, 72vw, 400px); height: auto; }
 
 /* minimal top brand bar for interior (blog) pages — homepage has none */
 .topbar { position: sticky; top: 0; z-index: 40; -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); background: rgba(20,13,11,0.82); border-bottom: 1px solid var(--line); }
