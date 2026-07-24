@@ -155,14 +155,14 @@ double opt‑in.
 
 **One‑time setup:**
 
-1. Create a free account at <https://buttondown.email>.
+1. Create a free account at <https://buttondown.com>.
 2. In Buttondown → Settings, turn on **double opt‑in**.
-3. Copy your Buttondown username.
-4. Open `src/consts.ts` and set `buttondownUsername` to that username.
+3. Copy your Buttondown username (this site is set to `not_now_dear`).
+4. It's already set in `src/consts.ts` (`buttondownUsername`); change it there if the username ever changes.
 
 Subscribers are stored by Buttondown. You can export them any time from the
-Buttondown dashboard, and the automation in the next section also keeps a copy in
-this repo.
+Buttondown dashboard (**Subscribers → Export**), and the automation in the next
+section also keeps a copy in this repo.
 
 ---
 

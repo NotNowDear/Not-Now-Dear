@@ -21,7 +21,7 @@ function csvCell(value) {
 
 async function fetchAll() {
   const subscribers = [];
-  let url = 'https://api.buttondown.email/v1/subscribers?ordering=creation_date';
+  let url = 'https://api.buttondown.com/v1/subscribers?ordering=creation_date';
   while (url) {
     const res = await fetch(url, {
       headers: { Authorization: `Token ${API_KEY}` },

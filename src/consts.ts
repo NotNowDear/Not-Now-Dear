@@ -26,11 +26,11 @@ export const BUY = {
   amazon: 'https://www.amazon.com/Not-Now-Dear-Tristan-Coates/dp/1398483303',
 };
 
-// Newsletter (Buttondown). Create a free account at https://buttondown.email,
+// Newsletter (Buttondown). Create a free account at https://buttondown.com,
 // turn on "double opt-in" in Settings, then paste your username below.
 export const NEWSLETTER = {
   provider: 'buttondown',
-  buttondownUsername: 'YOUR_BUTTONDOWN_USERNAME',
+  buttondownUsername: 'not_now_dear',
 };
 
 // Comments + reactions (Giscus, backed by GitHub Discussions — free, moderated).
