@@ -18,7 +18,7 @@ export const SITE = {
 };
 
 export const SOCIAL = {
-  instagram: 'https://www.instagram.com/', // TODO: replace with the real handle URL
+  instagram: 'https://www.instagram.com/notnowdearigmt/',
 };
 
 // Primary "Buy the book" link (Amazon US). Add more retailers here later if needed.
@@ -37,10 +37,10 @@ export const NEWSLETTER = {
 // Set up at https://giscus.app, then paste the values it generates here.
 export const COMMENTS = {
   enabled: true,
-  repo: 'YOUR_GITHUB_USERNAME/Not-Now-Dear',
-  repoId: 'YOUR_REPO_ID',
+  repo: 'NotNowDear/Not-Now-Dear',
+  repoId: 'R_kgDOTedFvA',
   category: 'Announcements',
-  categoryId: 'YOUR_CATEGORY_ID',
+  categoryId: 'DIC_kwDOTedFvM4DB5aQ',
 };
 
 // Privacy-friendly analytics (Plausible). Loaded only AFTER cookie consent.
