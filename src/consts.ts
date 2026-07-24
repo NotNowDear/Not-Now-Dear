@@ -24,6 +24,9 @@ export const SOCIAL = {
 // Primary "Buy the book" link (Amazon US). Add more retailers here later if needed.
 export const BUY = {
   amazon: 'https://www.amazon.com/Not-Now-Dear-Tristan-Coates/dp/1398483303',
+  currency: 'USD',
+  // Current list price (just the number). Update if it changes.
+  price: '9.95',
 };
 
 // Newsletter (Buttondown). Create a free account at https://buttondown.com,

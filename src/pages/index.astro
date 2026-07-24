@@ -38,6 +38,25 @@ const jsonLd = [
     image: `${SITE.url}/images/final-artwork-austin-macauley.jpg`,
     description: SITE.description,
     ...(SITE.isbn ? { isbn: SITE.isbn } : {}),
+    workExample: {
+      '@type': 'Book',
+      '@id': BUY.amazon,
+      bookFormat: 'https://schema.org/Paperback',
+      inLanguage: 'en',
+      ...(SITE.isbn ? { isbn: SITE.isbn } : {}),
+      potentialAction: {
+        '@type': 'ReadAction',
+        target: BUY.amazon,
+      },
+    },
+    offers: {
+      '@type': 'Offer',
+      url: BUY.amazon,
+      availability: 'https://schema.org/InStock',
+      priceCurrency: BUY.currency,
+      ...(BUY.price ? { price: BUY.price } : {}),
+      seller: { '@type': 'Organization', name: 'Amazon' },
+    },
   },
   {
     '@context': 'https://schema.org',
