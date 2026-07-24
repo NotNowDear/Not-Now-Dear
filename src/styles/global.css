@@ -173,6 +173,9 @@ p { max-width: 62ch; }
 .split { display: grid; gap: clamp(2.5rem, 6vw, 5rem); align-items: center; }
 .book-showcase { position: relative; display: grid; place-items: center; }
 .book-showcase img { width: min(84%, 400px); border-radius: 4px; box-shadow: var(--shadow); }
+.book-showcase a { display: inline-block; border-radius: 4px; }
+.book-showcase a img { transition: transform 0.5s var(--ease); }
+.book-showcase a:hover img { transform: translateY(-5px) scale(1.02); }
 .book-showcase::after {
   content: ''; position: absolute; z-index: -1; inset: 6% 8%;
   background: radial-gradient(circle at 50% 40%, rgba(219,49,69,0.28), transparent 65%);

@@ -100,7 +100,9 @@ const jsonLd = [
   <section class="section" id="story">
     <div class="shell split split--reverse">
       <figure class="book-showcase" data-reveal>
-        <Picture src="/images/final-artwork-austin-macauley.jpg" alt={`Front cover of ${SITE.fullTitle} by ${SITE.author}`} width={640} height={1024} />
+        <a href={BUY.amazon} target="_blank" rel="noopener" aria-label={`Buy ${SITE.fullTitle} on Amazon`}>
+          <Picture src="/images/updated-cover.png" alt={`Front cover of ${SITE.fullTitle} by ${SITE.author}`} width={640} height={1024} />
+        </a>
       </figure>
       <div data-reveal data-reveal-delay="1">
         <div class="eyebrow">The story</div>
