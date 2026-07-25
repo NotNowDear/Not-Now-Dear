@@ -13,7 +13,7 @@ export async function GET() {
     .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 
   const homeImages = [
-    '/images/glamor-heel.png',
+    '/images/hero.png',
     '/images/updated-cover.png',
     '/images/final-artwork-austin-macauley.jpg',
     '/images/insta-qr-code.png',
