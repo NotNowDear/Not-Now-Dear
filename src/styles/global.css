@@ -302,9 +302,10 @@ p { max-width: 62ch; }
 .footer p { font-family: var(--sans); font-size: 0.78rem; letter-spacing: 0.04em; color: var(--muted); }
 .publisher { display: flex; flex-direction: column; align-items: center; gap: 0.7rem; }
 .publisher__label { font-family: var(--sans); font-size: 0.64rem; letter-spacing: 0.24em; text-transform: uppercase; color: var(--muted); }
-.publisher__logo { display: inline-block; background: #fff; padding: 0.4rem 0.6rem; border-radius: 8px; box-shadow: var(--shadow-soft); transition: transform 0.3s var(--ease), box-shadow 0.3s var(--ease); }
+.publisher__logo { display: inline-block; background: #fff; padding: 0.3rem 0.55rem; border-radius: 8px; box-shadow: var(--shadow-soft); overflow: hidden; transition: transform 0.3s var(--ease), box-shadow 0.3s var(--ease); }
 a.publisher__logo:hover { transform: translateY(-2px); box-shadow: var(--shadow); }
-.publisher__logo img { width: clamp(260px, 72vw, 400px); height: auto; }
+/* crop the logo file's built-in vertical whitespace so the wordmark fills the frame */
+.publisher__logo img { width: clamp(260px, 72vw, 380px); aspect-ratio: 1200 / 470; height: auto; object-fit: cover; object-position: center 40%; }
 
 /* minimal top brand bar for interior (blog) pages — homepage has none */
 .topbar { position: sticky; top: 0; z-index: 40; -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); background: rgba(247,241,230,0.82); border-bottom: 1px solid var(--line); }
