@@ -23,6 +23,8 @@ const minutes = readingTime(post.body ?? '');
 const path = `/blog/${post.id}/`;
 const ogImage = data.ogImage ?? data.featuredImage;
 
+const pageUrl = new URL(path, SITE.url).href;
+
 const jsonLd = [
   {
     '@context': 'https://schema.org',
@@ -38,18 +40,67 @@ const jsonLd = [
       name: SITE.title,
       logo: { '@type': 'ImageObject', url: `${SITE.url}/images/logo.jpg` },
     },
-    mainEntityOfPage: { '@type': 'WebPage', '@id': new URL(path, SITE.url).href },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': pageUrl },
     keywords: data.tags.join(', '),
   },
 ];
+
+// When a post carries academic metadata, emit Google Scholar (Highwire)
+// citation_ meta tags + a ScholarlyArticle JSON-LD block so the paper is
+// discoverable and citable from this page.
+const sch = data.scholarly;
+const citationMeta = sch
+  ? [
+      { name: 'citation_title', content: data.title },
+      { name: 'citation_author', content: data.author },
+      { name: 'citation_publication_date', content: sch.publicationDate },
+      { name: 'citation_publisher', content: sch.publisher },
+      { name: 'citation_doi', content: sch.doi },
+      { name: 'citation_pdf_url', content: sch.pdfUrl },
+      { name: 'citation_abstract_html_url', content: pageUrl },
+      { name: 'citation_public_url', content: pageUrl },
+      ...(sch.keywords.length
+        ? [{ name: 'citation_keywords', content: sch.keywords.join('; ') }]
+        : []),
+    ]
+  : [];
+
+if (sch) {
+  jsonLd.push({
+    '@context': 'https://schema.org',
+    '@type': 'ScholarlyArticle',
+    headline: data.title,
+    name: data.title,
+    description: sch.abstract ?? data.metaDescription ?? data.summary,
+    datePublished: data.date.toISOString(),
+    author: {
+      '@type': 'Person',
+      name: data.author,
+      ...(sch.authorOrcid
+        ? {
+            identifier: `https://orcid.org/${sch.authorOrcid}`,
+            url: `https://orcid.org/${sch.authorOrcid}`,
+          }
+        : {}),
+    },
+    publisher: { '@type': 'Organization', name: sch.publisher },
+    identifier: { '@type': 'PropertyValue', propertyID: 'DOI', value: sch.doi },
+    sameAs: sch.landingUrl ?? `https://doi.org/${sch.doi}`,
+    url: pageUrl,
+    mainEntityOfPage: { '@type': 'WebPage', '@id': pageUrl },
+    keywords: sch.keywords.join(', '),
+    isBasedOn: `https://doi.org/${sch.doi}`,
+  });
+}
 ---
 <BaseLayout
   title={data.seoTitle ?? data.title}
   description={data.metaDescription ?? data.summary}
   image={ogImage}
   type="article"
-  canonical={new URL(path, SITE.url).href}
+  canonical={pageUrl}
   jsonLd={jsonLd}
+  meta={citationMeta}
   showTopbar={true}
 >
   <article class="article">

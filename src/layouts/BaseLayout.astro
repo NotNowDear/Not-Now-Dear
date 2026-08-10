@@ -13,6 +13,7 @@ interface Props {
   noindex?: boolean;
   canonical?: string;
   jsonLd?: Record<string, unknown>[];
+  meta?: { name: string; content: string }[];
   showTopbar?: boolean;
   footer?: boolean;
 }
@@ -25,6 +26,7 @@ const {
   noindex,
   canonical,
   jsonLd,
+  meta,
   showTopbar = false,
   footer = true,
 } = Astro.props;
@@ -34,7 +36,7 @@ const year = new Date().getFullYear();
 <!doctype html>
 <html lang="en">
   <head>
-    <SEO {title} {description} {image} {type} {noindex} {canonical} {jsonLd} />
+    <SEO {title} {description} {image} {type} {noindex} {canonical} {jsonLd} {meta} />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link

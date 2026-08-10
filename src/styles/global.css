@@ -363,3 +363,24 @@ a.publisher__logo:hover { transform: translateY(-2px); box-shadow: var(--shadow)
   .feed-grid { grid-template-columns: repeat(3, 1fr); }
   .reactions-grid { grid-template-columns: repeat(3, 1fr); }
 }
+
+/* --- Citation card (used on scholarly / working-paper posts) --------------- */
+.cite-card {
+  margin: 2.5rem 0;
+  padding: 1.5rem 1.75rem;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-left: 4px solid var(--accent, #a8332f);
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.02);
+}
+.cite-card h3 {
+  margin: 0 0 0.6rem;
+  font-size: 0.85rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.cite-card__ref { margin: 0 0 1rem; font-size: 0.98rem; line-height: 1.55; }
+.cite-card__actions {
+  display: flex; flex-wrap: wrap; gap: 0.6rem; margin: 0 0 0.9rem;
+}
+.cite-card__meta { margin: 0; font-size: 0.85rem; opacity: 0.8; }

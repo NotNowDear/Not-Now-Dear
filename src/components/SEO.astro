@@ -10,6 +10,8 @@ interface Props {
   canonical?: string;
   /** JSON-LD structured data blocks (already-built objects). */
   jsonLd?: Record<string, unknown>[];
+  /** Extra <meta name content> tags (e.g. Google Scholar citation_ tags). */
+  meta?: { name: string; content: string }[];
 }
 
 const {
@@ -20,6 +22,7 @@ const {
   noindex = false,
   canonical,
   jsonLd = [],
+  meta = [],
 } = Astro.props;
 
 const pageTitle = title ? `${title} — ${SITE.title}` : `${SITE.title} — ${SITE.author}`;
@@ -32,6 +35,9 @@ const imageURL = new URL(image, SITE.url).href;
 <meta name="description" content={description} />
 <meta name="author" content={SITE.author} />
 <link rel="canonical" href={canonicalURL} />
+
+<!-- Extra meta (e.g. Google Scholar citation_ tags) -->
+{meta.map((m) => <meta name={m.name} content={m.content} />)}
 {noindex && <meta name="robots" content="noindex, nofollow" />}
 <meta name="theme-color" content="#f7f1e6" />
 <meta name="generator" content={Astro.generator} />

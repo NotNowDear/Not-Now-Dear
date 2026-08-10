@@ -17,6 +17,20 @@ const blog = defineCollection({
     ogImage: z.string().optional(),
     author: z.string().default('Tristan Coates'),
     draft: z.boolean().default(false),
+    // Optional academic metadata. When present, the blog template emits
+    // Google Scholar (Highwire) citation_ meta tags + ScholarlyArticle JSON-LD.
+    scholarly: z
+      .object({
+        doi: z.string(),
+        pdfUrl: z.string(),
+        landingUrl: z.string().optional(),
+        publisher: z.string().default('Zenodo'),
+        publicationDate: z.string(), // e.g. "2025" or "2025/08/10"
+        authorOrcid: z.string().optional(),
+        abstract: z.string().optional(),
+        keywords: z.array(z.string()).default([]),
+      })
+      .optional(),
   }),
 });
 
