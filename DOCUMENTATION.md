@@ -166,19 +166,21 @@ section also keeps a copy in this repo.
 
 ---
 
-## 8. The subscribers.csv file (automatic backup)
+## 8. Getting your subscriber list (CSV)
 
-`subscribers.csv` holds `Date, Name, Email, Country, Consent`. It updates itself:
+**Get it from Buttondown:** log in at buttondown.com → **Subscribers** → **Export**.
+A CSV downloads instantly with everyone's details. This is private (behind your
+login) and always up to date.
 
-1. In Buttondown → Settings → API, copy your **API key**.
-2. On GitHub: repo → **Settings → Secrets and variables → Actions → New secret**.
-   Name it `BUTTONDOWN_API_KEY` and paste the key.
-3. The workflow in `.github/workflows/sync-subscribers.yml` runs every morning
-   (and can be run on demand from the **Actions** tab). It writes the latest list
-   into `subscribers.csv` and commits it.
+> ⚠️ **Do not store the subscriber list in this repository.** The repo is public
+> (required for Giscus comments), so any file committed here — including emails —
+> is visible to the whole internet. `subscribers.csv` is git-ignored for this
+> reason, and the old auto-sync workflow has been disabled.
 
-Because it's committed to the repo, running `git pull` on your computer brings the
-newest `subscribers.csv` straight to your desktop for review and backup.
+If you ever want the list to sync automatically onto your desktop, it must go to a
+**separate private repository**, not this one. The helper at
+`scripts/sync-subscribers.mjs` can be pointed at a private repo if you decide to
+set that up.
 
 ---
 

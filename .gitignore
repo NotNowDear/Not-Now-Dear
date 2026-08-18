@@ -14,3 +14,6 @@ public/images/
 *.log
 .DS_Store
 .vercel/
+
+# subscriber data — NEVER commit to this (public) repo. Export from Buttondown instead.
+subscribers.csv

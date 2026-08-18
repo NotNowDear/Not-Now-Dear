@@ -1,40 +1,27 @@
-name: Sync subscribers to CSV
+name: Sync subscribers to CSV (DISABLED)
 
-# Keeps subscribers.csv in the repo up to date from Buttondown, so it also
-# lands on your desktop whenever you `git pull`. Requires a repository secret
-# named BUTTONDOWN_API_KEY (Settings → Secrets and variables → Actions).
+# ---------------------------------------------------------------------------
+# DISABLED FOR PRIVACY.
+# This repository is PUBLIC (required for Giscus comments), so subscriber
+# email addresses must never be committed here. Get your subscriber CSV from
+# the Buttondown dashboard instead: Subscribers -> Export.
+#
+# The daily schedule and the commit step have been removed so this job can no
+# longer write subscriber data into the repo. Also disable it in the GitHub UI:
+# Actions -> "Sync subscribers to CSV (DISABLED)" -> ... -> Disable workflow.
+#
+# If you ever want automatic desktop syncing again, it must target a PRIVATE
+# repo (ask and it can be set up). The scripts/sync-subscribers.mjs helper is
+# kept for that purpose.
+# ---------------------------------------------------------------------------
 
 on:
-  schedule:
-    - cron: '0 6 * * *' # every day at 06:00 UTC
-  workflow_dispatch: {} # allow manual runs from the Actions tab
-
-permissions:
-  contents: write
+  workflow_dispatch: {}
 
 jobs:
-  sync:
+  notice:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20
-
-      - name: Fetch subscribers
-        env:
-          BUTTONDOWN_API_KEY: ${{ secrets.BUTTONDOWN_API_KEY }}
-        run: node scripts/sync-subscribers.mjs
-
-      - name: Commit changes if any
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          if ! git diff --quiet -- subscribers.csv; then
-            git add subscribers.csv
-            git commit -m "chore: update subscribers.csv [skip ci]"
-            git push
-          else
-            echo "No subscriber changes."
-          fi
+      - run: |
+          echo "This workflow is disabled for privacy."
+          echo "Export subscribers from the Buttondown dashboard instead."
