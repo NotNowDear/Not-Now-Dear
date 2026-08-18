@@ -21,7 +21,7 @@ function csvCell(value) {
 
 async function fetchAll() {
   const subscribers = [];
-  let url = 'https://api.buttondown.com/v1/subscribers?ordering=creation_date';
+  let url = 'https://api.buttondown.com/v1/subscribers';
   while (url) {
     const res = await fetch(url, {
       headers: { Authorization: `Token ${API_KEY}` },
@@ -49,6 +49,12 @@ function toRow(sub) {
 
 async function run() {
   const subs = await fetchAll();
+  // Sort oldest-first by signup date (done locally to avoid relying on API params).
+  subs.sort((a, b) => {
+    const da = a.creation_date ?? a.subscription_date ?? '';
+    const db = b.creation_date ?? b.subscription_date ?? '';
+    return da < db ? -1 : da > db ? 1 : 0;
+  });
   const header = 'Date,Name,Email,Country,Consent';
   const rows = subs.map(toRow);
   await fs.writeFile(OUT, [header, ...rows].join('\n') + '\n', 'utf8');
